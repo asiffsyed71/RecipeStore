@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Recipe } from './components/recipes/recipe.model';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,18 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Recipes';
+  recipeDetailData!: Recipe;
+  private _displayComponent = "recipes";
+
+  set displayComponent(componentName: string){
+    this._displayComponent = componentName;
+  }
+
+  get displayComponent() {
+    return this._displayComponent;
+  }
+  selectedRecipe(recipe: Recipe){
+    this.recipeDetailData = recipe;
+
+  }
 }

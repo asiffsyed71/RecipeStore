@@ -1,0 +1,61 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        (click)="collapsed = !collapsed"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
+      </button>
+      <a class="navbar-brand" href="#">Recipe Book</a>
+    </div>
+    <div
+      class="navbar-collapse"
+      [class.collapse]="collapsed"
+      (window:resize)="collapsed = true"
+    >
+      <ul class="nav navbar-nav">
+        <li (click)="onClick('recipes')" appHover>
+          <a>Recepies</a>
+        </li>
+        <li (click)="onClick('shopping-list')" appHover>
+          <a>Shopping List</a>
+        </li>
+        <li (click)="onClick('authenticate')" appHover>
+          <a>Authenticate</a>
+        </li>
+      </ul>
+   
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown" appDropdown>
+        <a
+          [ngStyle]="{ cursor: 'pointer' }"
+          class="dropdown-toggle"
+          role="button"
+          >Manage <span class="caret"></span
+        ></a>
+        <ul class="dropdown-menu">
+          <li>ut
+            <a [ngStyle]="{ cursor: 'pointer' }">Login</a>
+          </li>
+        </ul>
+        <ul class="dropdown-menu">
+          <li>
+            <a [ngStyle]="{ cursor: 'pointer' }">Save Data</a>
+          </li>
+          <li>
+            <a [ngStyle]="{ cursor: 'pointer' }">Fetch Data</a>
+          </li>
+          <li>
+            <a [ngStyle]="{ cursor: 'pointer' }">Logout</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+</div>
+  </div>
+</nav>
