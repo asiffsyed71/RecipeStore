@@ -12,6 +12,7 @@ import { ShoppingEditComponent } from './components/shopping-list/shopping-edit/
 import { HoverDirective } from './utils/hover.directive';
 import { NgCustomElseDirective } from './utils/ng-custom-else.directive';
 import { DropdownDirective } from './utils/dropdown.directive';
+import { RecipeService } from './services/recipe.service';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import { DropdownDirective } from './utils/dropdown.directive';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [RecipeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

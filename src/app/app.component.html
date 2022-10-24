@@ -1,17 +1,7 @@
 <app-header (componentActive)="displayComponent = $event"></app-header>
 
 <div class="container" *ngIf="displayComponent === 'recipes'">
-  <div class="row">
-    <div class="col-md-4">
-      <app-recipe-list (recipeEmitter)="selectedRecipe($event)"></app-recipe-list>
-    </div>
-    <div class="col-md-8">
-      <app-recipe-detail *ngIf="recipeDetailData" [recipeTobeDisplayed]="recipeDetailData"></app-recipe-detail>
-    </div>
-    <ng-template [appNgCustomElse]="!recipeDetailData">
-      <h2>Please Select a Recipe to view the details</h2>
-    </ng-template>
-  </div>
+  <app-recipes></app-recipes>
 </div>
 <div class="container" *ngIf="displayComponent === 'shopping-list'">
   <div class="row">

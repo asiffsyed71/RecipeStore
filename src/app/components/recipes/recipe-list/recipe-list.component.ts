@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { RecipeService } from 'src/app/services/recipe.service';
 import { Recipe } from '../recipe.model';
 
 @Component({
@@ -8,38 +9,10 @@ import { Recipe } from '../recipe.model';
 })
 export class RecipeListComponent implements OnInit {
 
-  @Output() recipeEmitter = new EventEmitter<Recipe>();
-  recipes: Recipe[] = [
-    new Recipe(
-      'testRecipe1',
-      'Test Description1',
-      'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=768,574'
-    ),
-    new Recipe(
-      'testRecipe2',
-      'Test Description2',
-      'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=768,574'
-    ),
-    new Recipe(
-      'testRecipe3',
-      'Test Description3',
-      'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=768,574'
-    ),
-    new Recipe(
-      'testRecipe4',
-      'Test Description4',
-      'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=768,574'
-    ),
-    new Recipe(
-      'testRecipe5',
-      'Test Description5',
-      'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=768,574'
-    ),
-  ];
-  constructor() {}
+  recipes: Recipe[] = [];
+  constructor(private recipeService: RecipeService) {}
 
-  ngOnInit(): void {}
-  recipeSelected(recipe: Recipe){
-    this.recipeEmitter.emit(recipe)
+  ngOnInit(): void {
+    this.recipes = this.recipeService.getRecipes();
   }
 }

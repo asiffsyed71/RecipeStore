@@ -8,7 +8,7 @@ import { Recipe } from './components/recipes/recipe.model';
 })
 export class AppComponent {
   title = 'Recipes';
-  recipeDetailData!: Recipe;
+ 
   private _displayComponent = "recipes";
 
   set displayComponent(componentName: string){
@@ -17,9 +17,5 @@ export class AppComponent {
 
   get displayComponent() {
     return this._displayComponent;
-  }
-  selectedRecipe(recipe: Recipe){
-    this.recipeDetailData = recipe;
-
   }
 }
