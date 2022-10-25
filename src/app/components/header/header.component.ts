@@ -10,15 +10,12 @@ export class HeaderComponent implements OnInit {
 
 
   collapsed = true;
-  @Output()componentActive = new EventEmitter<string>();
+
   onstructor() { }
 
 
   ngOnInit(): void {
   }
 
-  onClick(componentName: string) {
-    this.componentActive.emit(componentName)
-  }
 
 }

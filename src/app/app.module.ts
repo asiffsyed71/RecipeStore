@@ -13,6 +13,10 @@ import { HoverDirective } from './utils/hover.directive';
 import { NgCustomElseDirective } from './utils/ng-custom-else.directive';
 import { DropdownDirective } from './utils/dropdown.directive';
 import { RecipeService } from './services/recipe.service';
+import { AppRoutingModule } from './app-routing.module';
+import { RecipeStartComponent } from './components/recipes/recipe-start/recipe-start.component';
+import { RecipeEditComponent } from './components/recipes/recipe-edit/recipe-edit.component';
+import { ErrorComponent } from './components/error/error.component';
 
 
 @NgModule({
@@ -25,14 +29,15 @@ import { RecipeService } from './services/recipe.service';
     RecipeItemComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
+    RecipeStartComponent,
     HoverDirective,
     NgCustomElseDirective,
     DropdownDirective,
+    RecipeEditComponent,
+    ErrorComponent,
   ],
-  imports: [
-    BrowserModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [RecipeService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

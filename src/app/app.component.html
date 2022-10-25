@@ -1,12 +1,5 @@
-<app-header (componentActive)="displayComponent = $event"></app-header>
+<app-header></app-header>
 
-<div class="container" *ngIf="displayComponent === 'recipes'">
-  <app-recipes></app-recipes>
-</div>
-<div class="container" *ngIf="displayComponent === 'shopping-list'">
-  <div class="row">
-    <div class="col-xs-12">
-      <app-shopping-list></app-shopping-list>
-    </div>
-  </div>
+<div class="container">
+  <router-outlet></router-outlet>
 </div>

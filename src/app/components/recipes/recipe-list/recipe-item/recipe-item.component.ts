@@ -8,14 +8,9 @@ import { Recipe } from '../../recipe.model';
   styleUrls: ['./recipe-item.component.css'],
 })
 export class RecipeItemComponent implements OnInit {
-  @Output() propagateChildEvent = new EventEmitter();
-
   @Input() recipeItem!: Recipe;
+  @Input() index!: number;
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit(): void {}
-
-  onClickItem() {
-    this.recipeService.selectedRecipe.emit(this.recipeItem);
-  }
 }

@@ -11,7 +11,7 @@
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
       </button>
-      <a class="navbar-brand" href="#">Recipe Book</a>
+      <a class="navbar-brand" [routerLink]="['/recipes']">Recipe Book</a>
     </div>
     <div
       class="navbar-collapse"
@@ -19,13 +19,13 @@
       (window:resize)="collapsed = true"
     >
       <ul class="nav navbar-nav">
-        <li (click)="onClick('recipes')" appHover>
+        <li [routerLink]="['/recipes']" routerLinkActive="active"  appHover>
           <a>Recepies</a>
         </li>
-        <li (click)="onClick('shopping-list')" appHover>
+        <li [routerLink]="['/shopping-list']" routerLinkActive="active" appHover>
           <a>Shopping List</a>
         </li>
-        <li (click)="onClick('authenticate')" appHover>
+        <li [routerLink]="['/authenticate']" routerLinkActive="active" appHover>
           <a>Authenticate</a>
         </li>
       </ul>
@@ -39,7 +39,7 @@
           >Manage <span class="caret"></span
         ></a>
         <ul class="dropdown-menu">
-          <li>ut
+          <li>
             <a [ngStyle]="{ cursor: 'pointer' }">Login</a>
           </li>
         </ul>
