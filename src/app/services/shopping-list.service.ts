@@ -8,6 +8,7 @@ import { Ingredient } from '../shared/ingredient.model';
 export class ShoppingListService {
   // ingredientsEmitter = new EventEmitter<Ingredient[]>();
   updatedIngredients = new Subject<Ingredient[]>();
+  editIngredientIndex =  new Subject<number>();
 
   ingredients: Ingredient[] = [
     new Ingredient('Apples', 100),
@@ -18,8 +19,20 @@ export class ShoppingListService {
     this.ingredients.push(item);
     this.updatedIngredients.next(this.ingredients.slice());
   }
+
+  getShoppingItem(id: number) {
+    return this.ingredients[id];
+  }
+  editShoppingItem(id: number, updatedIngredient: Ingredient) {
+    this.ingredients[id] = updatedIngredient;
+    this.updatedIngredients.next(this.ingredients.slice());
+  }
   getIngredients() {
     return this.ingredients.slice();
+  }
+  deleteShoppingListItem(id: number){
+    this.ingredients.splice(id,1);
+    this.updatedIngredients.next(this.ingredients.slice());
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
