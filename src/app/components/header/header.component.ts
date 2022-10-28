@@ -1,21 +1,21 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { DataStorageService } from '../../services/data-storage.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-
-
   collapsed = true;
 
-  onstructor() { }
+  constructor(private dataStorageService: DataStorageService) {}
 
-
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  onSaveData() {
+    this.dataStorageService.storeRecipes();
   }
-
-
+  onFetchData() {
+    this.dataStorageService.fetchRecipes().subscribe();
+  }
 }
