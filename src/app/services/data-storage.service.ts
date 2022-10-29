@@ -37,7 +37,7 @@ export class DataStorageService {
           {
             params: authenticatedUser?.token
               ? new HttpParams().set('auth', authenticatedUser?.token)
-              : new HttpParams().set('auth', ''),
+              : undefined,
           }
         );
       }),
