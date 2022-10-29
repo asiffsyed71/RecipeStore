@@ -19,43 +19,63 @@
       (window:resize)="collapsed = true"
     >
       <ul class="nav navbar-nav">
-        <li [routerLink]="['/recipes']" routerLinkActive="active"  appHover>
+        <li
+          [routerLink]="['/recipes']"
+          routerLinkActive="active"
+          appHover
+          *ngIf="isAuthenticated"
+        >
           <a>Recepies</a>
         </li>
-        <li [routerLink]="['/shopping-list']" routerLinkActive="active" appHover>
+        <li
+          [routerLink]="['/shopping-list']"
+          routerLinkActive="active"
+          appHover
+        >
           <a>Shopping List</a>
         </li>
-        <li [routerLink]="['/authenticate']" routerLinkActive="active" appHover>
+        <li
+          [routerLink]="['/auth']"
+          routerLinkActive="active"
+          appHover
+          *ngIf="!isAuthenticated"
+        >
           <a>Authenticate</a>
         </li>
       </ul>
-   
-    <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown" appDropdown>
-        <a
-          [ngStyle]="{ cursor: 'pointer' }"
-          class="dropdown-toggle"
-          role="button"
-          >Manage <span class="caret"></span
-        ></a>
-        <ul class="dropdown-menu">
-          <li>
-            <a [ngStyle]="{ cursor: 'pointer' }">Login</a>
-          </li>
-        </ul>
-        <ul class="dropdown-menu">
-          <li>
-            <a [ngStyle]="{ cursor: 'pointer' }" (click)="onSaveData()">Save Data</a>
-          </li>
-          <li>
-            <a [ngStyle]="{ cursor: 'pointer' }" (click)="onFetchData()">Fetch Data</a>
-          </li>
-          <li>
-            <a [ngStyle]="{ cursor: 'pointer' }">Logout</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-</div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a [ngStyle]="{ cursor: 'pointer' }" appHover *ngIf="isAuthenticated"
+            >Logout</a
+          >
+        </li>
+        <li class="dropdown" appDropdown *ngIf="isAuthenticated">
+          <a
+            [ngStyle]="{ cursor: 'pointer' }"
+            class="dropdown-toggle"
+            role="button"
+            >Manage <span class="caret"></span
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a [ngStyle]="{ cursor: 'pointer' }">Login</a>
+            </li>
+          </ul>
+          <ul class="dropdown-menu">
+            <li>
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="onSaveData()"
+                >Save Data</a
+              >
+            </li>
+            <li>
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="onFetchData()"
+                >Fetch Data</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

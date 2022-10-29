@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <div *ngIf="isLoading">
+      <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+          <app-loading-spinner></app-loading-spinner>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-warning" role="alert" *ngIf="!!error && !isLoading">{{ error }}</div>
+    <form [formGroup]="authForm" [hidden]="!!isLoading">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-group">
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            formControlName="email"
+          />
+          <span class="input-group-addon"
+            ><span class="glyphicon glyphicon-envelope"></span
+          ></span>
+        </div>
+      </div>
+      <p
+        class="error-block"
+        *ngIf="authForm.controls['email'].errors?.['emailInvalid'] && authForm.controls['email'].dirty"
+      >
+        {{authForm.controls['email'].errors?.['emailInvalid'].message}}
+      </p>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <div class="input-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            class="form-control"
+            formControlName="password"
+            (input)="onInputChange(!!authForm.controls['password'].errors?.['minlength'])"
+          />
+          <span class="input-group-addon" appHover (click)="togglePassword()"
+            ><span
+              [class]="
+                !showPassword
+                  ? 'glyphicon glyphicon-eye-open'
+                  : 'glyphicon glyphicon-eye-close'
+              "
+              [style]="{
+                opacity:
+                  authForm.controls['password'].value?.length > 0 ? '1' : '0.5'
+              }"
+            ></span
+          ></span>
+        </div>
+      </div>
+
+      <p
+        class="error-block"
+        *ngIf="
+          authForm.controls['password'].invalid &&
+          authForm.controls['password'].dirty
+        "
+      >
+        Password should be atleast 6 characters long
+      </p>
+      <span
+        class="error-block"
+        *ngIf="authForm.controls['password'].errors?.['passwordMatchError']"
+        ><p>
+          {{authForm.controls['password'].errors?.['passwordMatchError'].message}}
+        </p></span
+      >
+
+      <div *ngIf="!isLoginMode">
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            class="form-control"
+            formControlName="confirmPassword"
+          />
+        </div>
+        <p
+          class="error-block"
+          *ngIf="authForm.controls['confirmPassword'].errors?.['passwordMatchError'] && authForm.controls['confirmPassword'].dirty"
+        >
+          {{authForm.controls['confirmPassword'].errors?.['passwordMatchError'].message}}
+        </p>
+      </div>
+
+      <div>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          (click)="onSubmit()"
+          [disabled]="authForm.invalid"
+        >
+          {{ isLoginMode ? "Login" : "Signup" }}
+        </button>
+        |
+        <button class="btn btn-primary" type="button" (click)="onSwitchMode()">
+          {{ isLoginMode ? "Signup" : "Login" }} instead?
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
