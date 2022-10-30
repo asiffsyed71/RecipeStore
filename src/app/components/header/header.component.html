@@ -46,7 +46,11 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a [ngStyle]="{ cursor: 'pointer' }" appHover *ngIf="isAuthenticated"
+          <a
+            [ngStyle]="{ cursor: 'pointer' }"
+            appHover
+            *ngIf="isAuthenticated"
+            (click)="onLogout()"
             >Logout</a
           >
         </li>
