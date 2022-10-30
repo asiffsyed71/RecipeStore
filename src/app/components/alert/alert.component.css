@@ -1,0 +1,34 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.75)
+}
+
+.alert-box {
+    position: fixed;
+    top: 30vh;
+    left: 35vw;
+    width: max(30vw,auto);
+    height: auto;
+    padding: 2rem;
+    z-index: 100;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-style: italic;
+    font-size: 1.5rem;
+}
+.alert-box > p {
+    margin: 3rem;
+}
+.alert-box-actions {
+    position: absolute;
+    font-size: 2rem;
+    top: 2rem;
+    right: 2.5rem;
+    color: #337ab7;
+}
+

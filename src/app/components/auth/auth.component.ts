@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,22 +13,31 @@ import {
 } from '@angular/forms';
 import { matchPassword, validateEmail } from '../../utils/validators';
 import { AuthService, responseData } from '../../services/auth-service.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { AlertComponent } from '../alert/alert.component';
+import { PlaceholderDirective } from 'src/app/utils/placeholder.directive';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   authForm!: FormGroup;
   showPassword: boolean = false;
   isLoading = false;
   error!: string;
+  private modalSub!: Subscription;
+  @ViewChild(PlaceholderDirective, { static: false })
+  hostDirective!: PlaceholderDirective;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -79,6 +94,7 @@ export class AuthComponent implements OnInit {
       (errorMessage) => {
         this.error = errorMessage;
         this.isLoading = false;
+        this.showErrorModal(errorMessage);
       }
     );
     this.authForm.reset();
@@ -97,6 +113,25 @@ export class AuthComponent implements OnInit {
       this.authForm.get('confirmPassword')?.disable();
       this.authForm.get('confirmPassword')?.removeValidators(validatorFn);
       this.authForm.get('confirmPassword')?.updateValueAndValidity();
+    }
+  }
+
+  private showErrorModal(message: string) {
+    const componentFacory =
+      this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+    const hostViewContainerRef = this.hostDirective.viewContainerRef;
+    hostViewContainerRef.clear();
+    const componentRef = hostViewContainerRef.createComponent(componentFacory);
+    componentRef.instance.errorMessage = message;
+    this.modalSub = componentRef.instance.closeModal.subscribe(() => {
+      hostViewContainerRef.clear();
+      this.modalSub.unsubscribe();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.modalSub) {
+      this.modalSub.unsubscribe();
     }
   }
 }
