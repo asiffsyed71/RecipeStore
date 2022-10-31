@@ -1,52 +1,41 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RecipeDetailComponent } from './components/recipes/recipe-detail/recipe-detail.component';
-import { RecipesComponent } from './components/recipes/recipes.component';
-import { RecipeStartComponent } from './components/recipes/recipe-start/recipe-start.component';
-import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
-import { RecipeEditComponent } from './components/recipes/recipe-edit/recipe-edit.component';
-import { ErrorComponent } from './components/error/error.component';
-import { RecipeResolverService } from './services/recipe-resolver.service';
-import { AuthComponent } from './components/auth/auth.component';
-import { AuthGaurdService } from './services/auth-gaurd.service';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { ErrorComponent } from './components/error/error.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
   {
     path: 'recipes',
-    component: RecipesComponent,
-    canActivate: [AuthGaurdService],
-    children: [
-      {
-        path: '',
-        component: RecipeStartComponent,
-        data: { message: 'Please select a recipe to view the details' },
-      },
-      {
-        path: 'new',
-        component: RecipeEditComponent,
-        children: [{ path: '**', redirectTo: '/recipes/new' }],
-      },
-      {
-        path: ':id',
-        component: RecipeDetailComponent,
-        resolve: [RecipeResolverService],
-      },
-      {
-        path: ':id/edit',
-        component: RecipeEditComponent,
-        resolve: [RecipeResolverService],
-      },
-    ],
+    loadChildren: () =>
+      import('./components/recipes/recipes.module').then(
+        (module) => module.RecipesModule
+      ),
   },
-  { path: 'shopping-list', component: ShoppingListComponent },
-  { path: 'auth', component: AuthComponent },
-  { path: '**', component: ErrorComponent },
+  {
+    path: 'shopping-list',
+    loadChildren: () =>
+      import('./components/shopping-list/shopping-list.module').then(
+        (module) => module.ShoppingListModule
+      ),
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./components/auth/auth.module').then(
+        (module) => module.AuthModule
+      ),
+  },
+  {
+    path: '**',
+    component: ErrorComponent,
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [
+    RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -1,5 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Subject, Subscription } from 'rxjs';
+import { AlertComponent } from './components/alert/alert.component';
+import { AlertErrorsService } from './services/alert-errors.service';
 import { AuthService } from './services/auth-service.service';
+import { PlaceholderDirective } from './utils/placeholder.directive';
 
 @Component({
   selector: 'app-root',
@@ -7,21 +16,30 @@ import { AuthService } from './services/auth-service.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'Recipes';
+  private modalSub!: Subscription;
+  @ViewChild(PlaceholderDirective, { static: false })
+  hostDirective!: PlaceholderDirective;
 
-  private _displayComponent = 'recipes';
-
-  constructor(private authService: AuthService) {}
-
-  set displayComponent(componentName: string) {
-    this._displayComponent = componentName;
-  }
+  constructor(
+    private authService: AuthService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private alertErrorsService: AlertErrorsService
+  ) {}
 
   ngOnInit(): void {
     this.authService.autoLogin();
-  }
-
-  get displayComponent() {
-    return this._displayComponent;
+    this.alertErrorsService.errorSubscription.subscribe((errorMessage) => {
+      const componentFacory =
+        this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
+      const hostViewContainerRef = this.hostDirective.viewContainerRef;
+      hostViewContainerRef.clear();
+      const componentRef =
+        hostViewContainerRef.createComponent(componentFacory);
+      componentRef.instance.errorMessage = errorMessage;
+      this.modalSub = componentRef.instance.closeModal.subscribe(() => {
+        hostViewContainerRef.clear();
+        this.modalSub.unsubscribe();
+      });
+    });
   }
 }

@@ -15,8 +15,8 @@ import { matchPassword, validateEmail } from '../../utils/validators';
 import { AuthService, responseData } from '../../services/auth-service.service';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { AlertComponent } from '../alert/alert.component';
 import { PlaceholderDirective } from 'src/app/utils/placeholder.directive';
+import { AlertErrorsService } from 'src/app/services/alert-errors.service';
 
 @Component({
   selector: 'app-auth',
@@ -29,14 +29,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   showPassword: boolean = false;
   isLoading = false;
   error!: string;
-  private modalSub!: Subscription;
-  @ViewChild(PlaceholderDirective, { static: false })
-  hostDirective!: PlaceholderDirective;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private alertErrorsService: AlertErrorsService
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +92,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       (errorMessage) => {
         this.error = errorMessage;
         this.isLoading = false;
-        this.showErrorModal(errorMessage);
+        this.alertErrorsService.errorSubscription.next(errorMessage);
       }
     );
     this.authForm.reset();
@@ -115,23 +113,5 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.authForm.get('confirmPassword')?.updateValueAndValidity();
     }
   }
-
-  private showErrorModal(message: string) {
-    const componentFacory =
-      this.componentFactoryResolver.resolveComponentFactory(AlertComponent);
-    const hostViewContainerRef = this.hostDirective.viewContainerRef;
-    hostViewContainerRef.clear();
-    const componentRef = hostViewContainerRef.createComponent(componentFacory);
-    componentRef.instance.errorMessage = message;
-    this.modalSub = componentRef.instance.closeModal.subscribe(() => {
-      hostViewContainerRef.clear();
-      this.modalSub.unsubscribe();
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.modalSub) {
-      this.modalSub.unsubscribe();
-    }
-  }
+  ngOnDestroy(): void {}
 }
